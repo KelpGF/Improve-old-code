@@ -1,14 +1,17 @@
 <?php
 
-class OrderProduct
+class OrderProductDb
 {
+
+  private $dbConnection;
+
+  public function __construct(PDO $dbConnection) {
+    $this->dbConnection = $dbConnection;
+  }
 
   // Executando
   public function edit_products_order($id_order, $id_product, $qtd, $action)
   {
-    $connect = new Connect();
-    $connection = $connect->connecting();
-
     try {
       switch ($action) {
         case 'add':
@@ -25,7 +28,7 @@ class OrderProduct
           break;
       }
 
-      $consult = $connection->prepare($sql);
+      $consult = $this->dbConnection->prepare($sql);
 
       $consult->bindValue(":id_order", $id_order);
       $consult->bindValue(":id_product", $id_product);

@@ -1,22 +1,18 @@
 <?php
 
-class Connect
+interface ConnectInterface
+{
+  public function connecting(string $host, string $dbName, string $user, string $pass): PDO;
+}
+
+class DbConnect implements ConnectInterface
 {
 
-  function connecting()
+  public function connecting(string $host, string $dbName, string $user, string $pass): PDO
   {
+    $host = "mysql:host=$host;dbname=$dbName";
 
-    $host = "mysql:host=localhost;dbname=db_teste";
-    $user = "root";
-    $pass = "";
-
-    try {
-      $pdo = new PDO($host, $user, $pass);
-      return $pdo;
-    } catch (PDOException $e) {
-      echo "Error login: " . $e->getMessage();
-    } catch (Exception $e) {
-      echo "Error: " . $e->getMessage();
-    }
+    // let it break
+    return new PDO($host, $user, $pass);
   }
 }
